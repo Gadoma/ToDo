@@ -41,7 +41,7 @@ class ListTasksOwnedByUserInteractorTest extends TestCase
      * Mock the request DTO
      * @return ListTasksOwnedByUserRequestInterface
      */
-    private function getRequestMock()
+    private function getRequestMock() : ListTasksOwnedByUserRequestInterface
     {
         $mock = \Mockery::mock(ListTasksOwnedByUserRequestInterface::class);
         $mock->shouldReceive('getUser')->once();
@@ -52,7 +52,7 @@ class ListTasksOwnedByUserInteractorTest extends TestCase
      * Mock the response DTO
      * @return ListTasksOwnedByUserResponseInterface
      */
-    private function getResponseMock()
+    private function getResponseMock() : ListTasksOwnedByUserResponseInterface
     {
         $mock = \Mockery::mock(ListTasksOwnedByUserResponseInterface::class);
         $mock->shouldReceive('setTasks')->once()->with(Mockery::any());
@@ -63,7 +63,7 @@ class ListTasksOwnedByUserInteractorTest extends TestCase
      * Mock the Task repository
      * @return TaskRepositoryInterface
      */
-    private function getTaskRepositoryMock()
+    private function getTaskRepositoryMock() : TaskRepositoryInterface
     {
         $mock =\Mockery::mock(TaskRepositoryInterface::class);
         $mock->shouldReceive('getTasksOfUser')->once()->with(Mockery::any());

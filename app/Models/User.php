@@ -35,14 +35,15 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
-    ]; 
+    ];
 
     /**
-     * Tasks relationship 
-     * 
+     * Tasks relationship
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-
-    public function tasks() {
+    public function tasks()
+    {
         return $this->hasMany(Task::class);
     }
 }
