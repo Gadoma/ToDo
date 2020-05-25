@@ -8,6 +8,9 @@ use Illuminate\Support\Collection;
 
 class TaskRepository implements TaskRepositoryInterface
 {
+    /** @var Task */
+    private Task $model;
+
     /**
      * Creates the repository
      *
