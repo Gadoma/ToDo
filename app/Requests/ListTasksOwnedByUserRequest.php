@@ -15,7 +15,7 @@ final class ListTasksOwnedByUserRequest implements ListTasksOwnedByUserRequestIn
      */
     public function getUser() : User
     {
-        return $this->$user;
+        return $this->user;
     }
     
     /**
