@@ -66,7 +66,7 @@ class TaskRepositoryTest extends TestCase
     private function getTaskMock() : Task
     {
         $mock = \Mockery::mock(Task::class);
-        $mock->shouldReceive('where')->once()->with(Mockery::any())->andReturnSelf();
+        $mock->shouldReceive('where')->twice()->with(Mockery::any())->andReturnSelf();
         return $mock;
     }
 
