@@ -11,7 +11,7 @@ use Carbon\Carbon;
 class TaskRepository implements TaskRepositoryInterface
 {
     /** @var Task */
-    //private Task $model;
+    private Task $model;
 
     /**
      * Creates the repository
