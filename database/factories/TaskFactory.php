@@ -10,6 +10,7 @@ $factory->define(Task::class, function (Faker $faker) {
     return [
         'title' => $faker->sentence(2),
         'description' => $faker->realText(),
+        'planned_at' => null,
         'completed_at' => null,
         'user_id' => function () {
             return factory(User::class)->create()->id;
