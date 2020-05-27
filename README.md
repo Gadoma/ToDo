@@ -1,79 +1,155 @@
 <p align="center"><img src="https://res.cloudinary.com/dtfbvvkyp/image/upload/v1566331377/laravel-logolockup-cmyk-red.svg" width="400"></p>
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/d/total.svg" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/v/stable.svg" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
-</p>
+## TDD ToDo App
 
-## About Laravel
+This is an example project implementing a single small feature of a ToDo app as described by the below scenario: 
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+*As a User, I want to have an ability able to see a list of Tasks for my day, so that I can do them one by one.*
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+The implementation consists of a single API endpoint. It returns a simple JSON representation of a list of Tasks:
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- belonging to the User as identified by the API Key
+- not completed
+- planned for "today" or without a specified date
 
-## Learning Laravel
+The implementation is OOP based and executed using the TDD approach. 
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## Installation
 
-## Laravel Sponsors
+**This app is based on Laravel 7 and requires PHP >= 7.4**
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+Clone the repository
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- [UserInsights](https://userinsights.com)
-- [Fragrantica](https://www.fragrantica.com)
-- [SOFTonSOFA](https://softonsofa.com/)
-- [User10](https://user10.com)
-- [Soumettre.fr](https://soumettre.fr/)
-- [CodeBrisk](https://codebrisk.com)
-- [1Forge](https://1forge.com)
-- [TECPRESSO](https://tecpresso.co.jp/)
-- [Runtime Converter](http://runtimeconverter.com/)
-- [WebL'Agence](https://weblagence.com/)
-- [Invoice Ninja](https://www.invoiceninja.com)
-- [iMi digital](https://www.imi-digital.de/)
-- [Earthlink](https://www.earthlink.ro/)
-- [Steadfast Collective](https://steadfastcollective.com/)
-- [We Are The Robots Inc.](https://watr.mx/)
-- [Understand.io](https://www.understand.io/)
-- [Abdel Elrafa](https://abdelelrafa.com)
-- [Hyper Host](https://hyper.host)
-- [Appoly](https://www.appoly.co.uk)
-- [OP.GG](https://op.gg)
-- [云软科技](http://www.yunruan.ltd/)
+`git clone git@github.com:Gadoma/ToDo.git ToDo`
 
-## Contributing
+Setup .env 
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+```
+APP_NAME=ToDo
+APP_ENV=local
+APP_KEY=
+APP_DEBUG=true
+APP_URL=http://localhost
 
-## Code of Conduct
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=db
+DB_USERNAME=user
+DB_PASSWORD=pass
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Generate a unique app key 
 
-## Security Vulnerabilities
+`php artisan key:generate`
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Setup the database structure 
+
+`php artisan migrate`
+
+Seed the database with example data
+
+`php artisan db:seed`
+
+## Usage
+
+Once the database is seeded there will be some example data to play around with - two Users with some Tasks will be created with the following API keys:
+
+- `1111111111` (for User 1)
+- `2222222222` (for User 2)
+
+To authorize the API requests, the key (token) needs to be passed in the request header, e.g.
+
+`Authorization: Bearer 1111111111` 
+
+By default the API is throttled to 60 req/min.
+
+## Example
+
+```
+$ curl -i -H "Accept: application/json" -H "Authorization: Bearer 1111111111" http://localhost/api/v1/tasks
+
+HTTP/1.1 200 OK
+Server: nginx/1.15.8
+Content-Type: application/json
+Transfer-Encoding: chunked
+Connection: keep-alive
+Cache-Control: no-cache, private
+Date: Wed, 27 May 2020 09:02:25 GMT
+X-RateLimit-Limit: 60
+X-RateLimit-Remaining: 59
+
+[
+    {
+        "id": 6,
+        "title": "Fugiat quis.",
+        "description": "Alice timidly. 'Would you tell me,' said Alice, as the game was in a tone of great relief. 'Now at OURS they had been broken to pieces. 'Please, then,' said Alice, seriously, 'I'll have nothing more.",
+        "planned_at": "2020-05-27T00:00:00.000000Z",
+        "completed_at": null,
+        "user_id": 1,
+        "created_at": "2020-05-26T11:23:03.000000Z",
+        "updated_at": "2020-05-26T11:23:03.000000Z"
+    },
+    {
+        "id": 7,
+        "title": "Rerum qui.",
+        "description": "In a little pattering of footsteps in the sea!' cried the Gryphon, before Alice could hear the name 'Alice!' CHAPTER XII. Alice's Evidence 'Here!' cried Alice, quite forgetting that she tipped over.",
+        "planned_at": "2020-05-27T00:00:00.000000Z",
+        "completed_at": null,
+        "user_id": 1,
+        "created_at": "2020-05-26T11:23:03.000000Z",
+        "updated_at": "2020-05-26T11:23:03.000000Z"
+    },
+    {
+        "id": 8,
+        "title": "Nesciunt dicta ut.",
+        "description": "Gryphon, and the constant heavy sobbing of the bill, \"French, music, AND WASHING--extra.\"' 'You couldn't have done that, you know,' said Alice, 'but I must be kind to them,' thought Alice, 'as all.",
+        "planned_at": null,
+        "completed_at": null,
+        "user_id": 1,
+        "created_at": "2020-05-26T11:23:03.000000Z",
+        "updated_at": "2020-05-26T11:23:03.000000Z"
+    },
+    {
+        "id": 9,
+        "title": "Blanditiis distinctio.",
+        "description": "I'll get into that lovely garden. I think I can kick a little!' She drew her foot as far down the chimney, has he?' said Alice timidly. 'Would you tell me, please, which way she put them into a.",
+        "planned_at": null,
+        "completed_at": null,
+        "user_id": 1,
+        "created_at": "2020-05-26T11:23:03.000000Z",
+        "updated_at": "2020-05-26T11:23:03.000000Z"
+    },
+    {
+        "id": 10,
+        "title": "Quasi quae labore.",
+        "description": "Alice! when she got up this morning, but I think it so quickly that the Queen furiously, throwing an inkstand at the window, and one foot up the fan and a sad tale!' said the Hatter, 'or you'll be.",
+        "planned_at": null,
+        "completed_at": null,
+        "user_id": 1,
+        "created_at": "2020-05-26T11:23:03.000000Z",
+        "updated_at": "2020-05-26T11:23:03.000000Z"
+    }
+]
+```
+
+## Next steps
+Besides adding new features the following improvements could be implemented in the future:
+
+- switching from `INT` to `UUID` as entity identifiers to decouple ID generation from the database
+- implementing `Transformers`/`Presenters` to have better control over data serialization/deserialization
+- implementing `Validators` for incoming data
+- switching from `ActiveRecord` to `DataMapper` to separate the models from the database
+
+## Tooling
+
+- **phpunit** - running tests 
+- **phpstan** - static analysis 
+- **php-cs-fixer** - code style
 
 ## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+&copy; 2020 Piotr Gadzinski
+
+This is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
