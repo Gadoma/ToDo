@@ -6,8 +6,6 @@ use App\Models\User;
 use App\Models\Task;
 use Illuminate\Support\Collection;
 
-use Carbon\Carbon;
-
 class TaskRepository implements TaskRepositoryInterface
 {
     /** @var Task */
@@ -30,7 +28,7 @@ class TaskRepository implements TaskRepositoryInterface
     public function getTasksOfUser(User $user) : Collection
     {
         return $this->model->where(['user_id' => $user->id, 'completed_at' => null])->where(function ($query) {
-            $query->where('planned_at', '=', Carbon::today())
+            $query->where('planned_at', '=', date('Y-m-d 00:00:00'))
                   ->orWhereNull('planned_at');
         })->get();
     }
